@@ -19,9 +19,9 @@ const DeleteAllUsers = () => {
 
   return (
     <>
-        <Button color='warning' onClick={()=>deleteAllUsers()}>Delete All Users</Button> 
-        <br />
-        <Button color='warning' onClick={()=>deleteAllUsersCreateActions()}>Delete All Users By createActions</Button>
+      <Button color='warning' onClick={() => deleteAllUsers()}>Delete All Users</Button>
+      <br />
+      <Button color='warning' onClick={() => deleteAllUsersCreateActions()}>Delete All Users By createActions</Button>
     </>
   )
 }
