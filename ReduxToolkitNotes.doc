@@ -1,0 +1,161 @@
+Redux Toolkit :- 
+
+Tutorial 1 
+Playlist Link : https://www.youtube.com/playlist?list=PLwGdqUZWnOp2nz2T6SfWX9t6D6SYn3XlN 
+Official Doc Link : https://redux-toolkit.js.org/tutorials/overview
+-	According to Redux official docs, we should prefer to use Redux Toolkit and not the Redux in latest React apps
+-	Redux Toolkit reduce the lots of code work and minimize the mistakes and bugs which comes in the Redux
+-	Earlier for passing the data from parent component to grand child we need to pass that data in all over component like show in diagram below, 
+        this is called as prop drilling 
+-	To overcome this prop drilling React has Context API or Redux as option
+-	In Context API / Redux it creates the central store and data can be passed to the all components where it required as shown in below diagram
+
+-	Below is comparison between the Redux on left side and new Redux Toolkit syntax on right side
+ 
+-	In redux the creation of store was much complicated, its simplified in Redux Toolkit
+-	For using the Redux there are lots packages are required to do anything useful 
+-	Redux require too much boilerplate code than Redux Toolkit 
+
+
+Tutorial 2
+-	Now for creating the react app we use vite, instead of “npx create-react-app nameOfApp” now we use “npm create vite” 
+-	Vite is much faster and latest version of npx create-react-app
+-	For creating react project using vite go to vs code editor and type 
+                npm create vite 
+-	After entering the above command it asks for the project name 
+-	Then after giving the project name it asks for which framework to use like react, veu, etc, select React for our purpose. 
+-	After selecting framework it will ask for the variant ( i.e. language) select JavaScript here
+-	Now go to project folder use this command: cd projectName
+-	Now install npm packages using below command
+                npm install
+-	After installing packages just use this command to start server :  
+                npm run dev
+-	Now our new server will start at localhost: 5173
+-	Install react-redux first for binding the redux toolkit with react use below command
+                npm i react-redux
+-	Now we are installing the redux toolkit using below command
+                npm i @reduxjs/toolkit
+
+
+Tutorial 3 – 
+* Slices in Redux Toolkit –->
+-	Slice is basically a function that get the slice name, initial state and object of reducer functions
+-	In laymen language slice is just a one part of store that we create 
+ 
+-	For using the redux toolkit create a store 
+-	Inside the store create slices folder and inside that folder we have created UserSlice
+-	Now import createSlice in that folder using below command
+                import { createSlice } from "@reduxjs/toolkit";
+-	Inside that create the userSlice function 
+-       Coding part of slice :-
+        import { createSlice } from "@reduxjs/toolkit";
+
+        const usersSlice = createSlice({
+            name:'user',
+            initialState: [],
+            reducers: {
+                // Here all micro reducers will come
+                addUser(state, action){},
+                removeUser(state, action){},
+                deleteUsers(state, action) {},
+            }
+        })
+
+        export { usersSlice };
+
+
+Tutorial 4 – 
+Store in Redux Toolkit – 
+-	During the state management in react, for passing the data from parent component to grand child it must be passed through all the components i.e. prop drilling
+-	To overcome the prop drilling we use context API / Redux. In redux we can pass data directly from the store to any component where it required
+ 
+-	Now we creating the centralize store for the redux toolkit using the configureStore which accept single configuration object parameter
+-	For creating store, we import configureStore from the redux toolkit like below 
+                import { configureStore } from "@reduxjs/toolkit";
+-	Now import that already created slice in store.jsx 
+-	Now the store is created like below 
+                const store = configureStore({
+                        reducer : {
+                                users : userSlice, 
+                        }
+                })
+
+
+Tutorial 5 – 
+Connect Redux Toolkit with React – 
+-	Now connecting the Redux Toolkit with our react project we just enclose whole main react application in <Provider><App /></Provider>
+-	Go to main.jsx file and enclose <App /> into <Provider store={store} > 
+-	Import the Provider like below  
+                import { Provider } from 'react-redux'
+-	Now also import the store in main.jsx and pass that store as prop of provider
+
+ 
+Tutorial 6 – 
+Access the state data with useDispatch and action creators –
+-	Here we are accessing and updating the state of our store 
+-	Here we also import the Chance package of getting the fake data of user to be added in store and accessing them. This fake data we store in the api folder.
+-	To store the data in redux toolkit store we need to import the useDispatch hook and action creators.
+-	Import useDispatch hook in react like this below syntax
+                import { useDispatch } from 'react-redux';
+-	And then create constant for that dispatch like this below 
+                const dispatch = useDispatch();
+-	We need to export all the actions creators from the userSlice like below
+                export const { addUser, removeUser, deleteUsers } = userSlice.actions;
+-	And now import that action creator in file where it required like below
+                import { addUser } from ' ../store/slices/UserSlice';
+-	Now use that action creator as below
+                dispatch(addUser(name));
+
+Tutorial 7 – 
+Access and Display the data from Redux Toolkit –
+-	Now we are accessing the data from the store we use the useSelector and below is syntax for it 
+                import { useSelector } from 'react-redux'
+-	useSelector takes the callBack function as shown below 
+                const data = useSelector((state) => state.users)
+
+Tutorial 8 – 
+Operation on data from store of Redux Toolkit [Delete particular user]  –
+-	Now we are deleting the users from the store of Redux toolkit 
+-	Here we just added delete functionality for the store to delete the particular user data
+
+Tutorial 9 – 
+Operation on data from store of Redux Toolkit [Delete all user]  –
+-	Now we are deleting All users from the store of Redux toolkit 
+
+
+Tutorial 10 – 
+ExtraReducers in Redux Toolkit  –
+-	In Redux Toolkit, suppose we have multiple slices of store then for execution of redux will check for the all slices where is particular action creator is available
+-	ExtraReducer is used when we have to use same action creator in all slices, so that we don’t need to write the same logic in all slices 
+-	If action is supposed to be handled by one reducer, user reducers. If action is supposed to be handled by multiple reducers, use extraReducers.
+ 
+-	extraReducers are defined in Slice as another parameter of object as below 
+        // Here is extraReducer function -> It is used by other slices 
+        extraReducers(builder){
+                builder.addCase(userSlice.actions.deleteUsers, ()=>{
+                return [];
+                })
+        }
+
+
+Tutorial 11 – 
+createAction in Redux Toolkit  –
+-	createAction works same as extraReducers but it has some advantages over extraReducer 
+-	For creating the createAction we have created the ‘actions’ folder in the store folder 
+-	Inside the actions folder we have created the index.js and inside that we created the createAction as below,
+
+        // This file is for the createActions in Redux Toolkit
+        // - export const clearAllUsers = createAction('actionType here');
+        import { createAction } from '@reduxjs/toolkit';
+        export const clearAllUsersImport = createAction('clearAllUsersType');
+
+-	Now import that createAction we have created in UserSlice
+-	Now use that createAction in extraReducer which is completely independent of UserSlice as below
+        // - Here we are creating the extraReducer which is completely independent of UserSlice
+        extraReducers(builder) {
+                builder.addCase(clearAllUsersType, () => {
+                return [];
+                });
+        }
+
+
